@@ -1,7 +1,9 @@
 // import SpoolQR from "@/components/inventory/spool-qr";
 
 export default async function SpoolDetailPage({ params }: any) {
-  const res = await fetch(`http://localhost:3000/api/spools/${params.id}`, {
+  const baseUrl = process.env.SITE_URL;
+
+  const res = await fetch(`${baseUrl}/api/spools/${params.id}`, {
     cache: "no-store",
   });
 

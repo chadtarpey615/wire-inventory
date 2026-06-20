@@ -9,6 +9,7 @@ export default async function DashboardPage() {
     fetch(`${baseUrl}/api/spools`, { cache: "no-store" }),
     fetch(`${baseUrl}/api/wire-types`, { cache: "no-store" }),
   ]);
+
   const spools = await spoolsRes.json();
   const types = await typesRes.json();
 
