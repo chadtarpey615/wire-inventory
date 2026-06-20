@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model WireType {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  color     String?
+  notes     String?
+  spools    WireSpool[]
+}
+
+model WireSpool {
+  id            Int       @id @default(autoincrement())
+  label         String
+  lengthFeet    Int
+  remainingFeet Int
+  location      String?
+  lowStockAt    Int       @default(50)
+  wireType      WireType  @relation(fields: [wireTypeId], references: [id])
+  wireTypeId    Int
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  usageLogs UsageLog[]
+
+}
+
+model UsageLog {
+  id         Int       @id @default(autoincrement())
+  spool      WireSpool @relation(fields: [spoolId], references: [id])
+  spoolId    Int
+  jobName    String
+  usedFeet   Int
+  createdAt  DateTime  @default(now())
+}
