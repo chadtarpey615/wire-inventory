@@ -5,7 +5,7 @@ export async function POST(req: Request) {
   const body = await req.json();
   const { spoolId, jobName, usedFeet } = body;
 
-  const usage = await prisma.$transaction(async (tx) => {
+  const usage = await prisma.$transaction(async (tx: any) => {
     const log = await tx.usageLog.create({
       data: { spoolId, jobName, usedFeet },
     });
