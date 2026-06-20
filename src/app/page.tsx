@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 export default async function DashboardPage() {
+  console.log("DEBUG SITE_URL:", process.env.SITE_URL);
   // Fetch summary data
   const baseUrl = process.env.SITE_URL;
 
