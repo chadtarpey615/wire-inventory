@@ -3,11 +3,12 @@ import { Badge } from "@/components/ui/badge";
 
 export default async function DashboardPage() {
   // Fetch summary data
-  const [spoolsRes, typesRes] = await Promise.all([
-    fetch("http://localhost:3000/api/spools", { cache: "no-store" }),
-    fetch("http://localhost:3000/api/wire-types", { cache: "no-store" }),
-  ]);
+  const baseUrl = process.env.SITE_URL;
 
+  const [spoolsRes, typesRes] = await Promise.all([
+    fetch(`${baseUrl}/api/spools`, { cache: "no-store" }),
+    fetch(`${baseUrl}/api/wire-types`, { cache: "no-store" }),
+  ]);
   const spools = await spoolsRes.json();
   const types = await typesRes.json();
 
