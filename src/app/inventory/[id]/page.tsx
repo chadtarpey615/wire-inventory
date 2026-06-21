@@ -76,14 +76,14 @@ export default async function SpoolDetailPage({
               className="bg-slate-900 border border-slate-800 rounded-lg p-3"
             >
               <div className="flex justify-between">
-                <div className="font-medium">{log.amountUsed} ft used</div>
+                <div className="font-medium">{log.usedFeet} ft used</div>
                 <div className="text-xs text-slate-500">
                   {log.createdAt.toLocaleDateString()}
                 </div>
               </div>
 
-              {log.note && (
-                <div className="text-sm text-slate-400 mt-1">{log.note}</div>
+              {log.jobName && (
+                <div className="text-sm text-slate-400 mt-1">{log.jobName}</div>
               )}
             </div>
           ))}
