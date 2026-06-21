@@ -14,8 +14,17 @@ export default async function AddSpoolPage() {
   async function createSpool(formData: FormData) {
     "use server";
 
-    const labelRaw = formData.get("label") as string;
-    const label = labelRaw.trim();
+    // Get dropdown label
+    let label = (formData.get("label") as string)?.trim();
+
+    // Get custom label
+    const customLabel = (formData.get("customLabel") as string)?.trim();
+
+    // If custom label is provided, override dropdown
+    if (customLabel) {
+      label = customLabel;
+    }
+
     const normalized = label.toLowerCase();
 
     const lengthFeet = Number(formData.get("lengthFeet"));
@@ -78,7 +87,7 @@ export default async function AddSpoolPage() {
           </select>
 
           <input
-            name="label"
+            name="customLabel"
             className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2"
             placeholder="Or type custom label"
           />
