@@ -36,13 +36,34 @@ export default async function AddSpoolPage() {
 
       <form action={createSpool} className="space-y-4">
         {/* Label */}
+        {/* Label */}
         <div>
           <label className="block text-sm text-slate-400 mb-1">Label</label>
+
+          <select
+            name="label"
+            className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 mb-2"
+            defaultValue=""
+          >
+            <option value="">Select preset</option>
+            <option value="CAT6">CAT6</option>
+            <option value="CAT6A">CAT6A</option>
+            <option value="RG6">RG6</option>
+            <option value="18-2">18-2</option>
+            <option value="18-4">18-4</option>
+            <option value="16-2">16-2</option>
+            <option value="16-4">16-4</option>
+            <option value="22-2">22-2</option>
+            <option value="22-4">22-4</option>
+            <option value="Romex">Romex</option>
+            <option value='1" Conduit'>1" Conduit</option>
+            <option value='1.5" Conduit'>1.5" Conduit</option>
+          </select>
+
           <input
             name="label"
-            required
             className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2"
-            placeholder="14/2 White"
+            placeholder="Or type custom label"
           />
         </div>
 
