@@ -6,15 +6,33 @@ export default async function AddSpoolPage() {
     orderBy: { name: "asc" },
   });
 
+  // Create a lookup: { "cat6": 1, "rg6": 2, ... }
+  const wireTypeMap = Object.fromEntries(
+    wireTypes.map((t) => [t.name.toLowerCase(), t.id]),
+  );
+
   async function createSpool(formData: FormData) {
     "use server";
 
-    const label = formData.get("label") as string;
+    const labelRaw = formData.get("label") as string;
+    const label = labelRaw.trim();
+    const normalized = label.toLowerCase();
+
     const lengthFeet = Number(formData.get("lengthFeet"));
     const remainingFeet = Number(formData.get("remainingFeet"));
     const location = formData.get("location") as string;
     const lowStockAt = Number(formData.get("lowStockAt"));
-    const wireTypeId = Number(formData.get("wireTypeId"));
+
+    // Auto‑match wire type
+    let wireTypeId = wireTypeMap[normalized];
+
+    // If no match, auto‑create a new wire type
+    if (!wireTypeId) {
+      const newType = await prisma.wireType.create({
+        data: { name: label },
+      });
+      wireTypeId = newType.id;
+    }
 
     await prisma.wireSpool.create({
       data: {
@@ -35,7 +53,6 @@ export default async function AddSpoolPage() {
       <h1 className="text-2xl font-bold">Add New Spool</h1>
 
       <form action={createSpool} className="space-y-4">
-        {/* Label */}
         {/* Label */}
         <div>
           <label className="block text-sm text-slate-400 mb-1">Label</label>
@@ -116,23 +133,6 @@ export default async function AddSpoolPage() {
             defaultValue={50}
             className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2"
           />
-        </div>
-
-        {/* Wire Type Dropdown */}
-        <div>
-          <label className="block text-sm text-slate-400 mb-1">Wire Type</label>
-          <select
-            name="wireTypeId"
-            required
-            className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2"
-          >
-            <option value="">Select type</option>
-            {wireTypes.map((type) => (
-              <option key={type.id} value={type.id}>
-                {type.name}
-              </option>
-            ))}
-          </select>
         </div>
 
         {/* Submit */}
